@@ -2,7 +2,7 @@
 	"name": "@solvebeam/solvebeam-default-checkout-country-for-woocommerce",
 	"version": "1.0.0",
 	"description": "Override the default billing country on the WooCommerce checkout without writing code.",
-	"author": "Pronamic",
+	"author": "SolveBeam",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"solvebeam",

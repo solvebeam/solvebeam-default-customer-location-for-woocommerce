@@ -14,6 +14,8 @@ namespace SolveBeam\WooCommerceDefaultCheckoutCountry;
  * Plugin class
  */
 final class Plugin {
+	const OPTION_NAME = 'solvebeam_default_checkout_country';
+
 	/**
 	 * Instance.
 	 *
