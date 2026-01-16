@@ -14,8 +14,6 @@ namespace SolveBeam\WooCommerceDefaultCustomerLocation;
  * Plugin class
  */
 final class Plugin {
-	const OPTION_NAME = 'solvebeam_default_customer_location';
-
 	/**
 	 * Instance.
 	 *
@@ -73,7 +71,7 @@ final class Plugin {
 			return $location;
 		}
 
-		$override_location = \get_option( self::OPTION_NAME );
+		$override_location = \get_option( 'solvebeam_woocommerce_default_customer_location' );
 
 		if ( ! empty( $override_location ) ) {
 			return $override_location;
@@ -92,12 +90,12 @@ final class Plugin {
 		$new_settings = [];
 
 		$new_setting = [
-			'title'   => __( 'Override shop country/region for customer location', 'solvebeam-default-customer-location-for-woocommerce' ),
-			'desc'    => __( "Use this setting when the 'Default customer location' above is set to 'Shop country/region', but you want to set a different default location for customers. For example, if your store is based in the Netherlands, but you primarily sell to customers in Germany, select 'Germany' here. New visitors will then immediately see prices and shipping options applicable to Germany. This setting is added by the <i>SolveBeam Default Customer Location for WooCommerce</i> plugin.", 'solvebeam-default-customer-location-for-woocommerce' ),
-			'id'      => self::OPTION_NAME,
-			'type'    => 'single_select_country',
-			'default' => \get_option( 'woocommerce_default_country' ),
-			'desc_tip' => false,
+			'title'    => __( 'Override shop country/region for customer location', 'solvebeam-default-customer-location-for-woocommerce' ),
+			'desc'     => __( "Use this setting when the 'Default customer location' above is set to 'Shop country/region', but you want to set a different default location for customers. For example, if your store is based in the Netherlands, but you primarily sell to customers in Germany, select 'Germany' here. New visitors will then immediately see prices and shipping options applicable to Germany.", 'solvebeam-default-customer-location-for-woocommerce' ),
+			'desc_tip' => \__( 'This setting is added by the <i>SolveBeam Default Customer Location for WooCommerce</i> plugin.', 'solvebeam-default-customer-location-for-woocommerce' ),
+			'id'       => 'solvebeam_woocommerce_default_customer_location',
+			'type'     => 'single_select_country',
+			'default'  => \get_option( 'woocommerce_default_country' ),
 		];
 
 		foreach ( $settings as $setting ) {
