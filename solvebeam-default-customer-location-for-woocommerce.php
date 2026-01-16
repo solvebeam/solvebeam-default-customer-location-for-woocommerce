@@ -49,4 +49,4 @@ if ( \file_exists( $autoload_path ) ) {
 	}
 );
 
-Plugin::instance();
+Plugin::instance( __FILE__ );

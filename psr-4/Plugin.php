@@ -26,11 +26,12 @@ final class Plugin {
 	/**
 	 * Return instance of this class.
 	 *
+	 * @param string|null $plugin_file The plugin file.
 	 * @return self A single instance of this class.
 	 */
-	public static function instance() {
+	public static function instance( $plugin_file = null ) {
 		if ( null === self::$instance ) {
-			self::$instance = new self();
+			self::$instance = new self( $plugin_file );
 		}
 
 		return self::$instance;
@@ -38,23 +39,49 @@ final class Plugin {
 
 	/**
 	 * Construct.
+	 *
+	 * @param string $plugin_file The plugin file.
 	 */
-	private function __construct() {
-		\add_action( 'plugins_loaded', $this->init( ... ) );
+	private function __construct(
+		/**
+		 * Plugin file.
+		 */
+		private string $plugin_file
+	) {
+		\add_action( 'plugins_loaded', $this->plugins_loaded( ... ) );
 	}
 
 	/**
-	 * Initialize plugin.
+	 * Plugins loaded.
 	 *
 	 * @return void
 	 */
-	public function init() {
+	public function plugins_loaded() {
 		if ( ! \class_exists( WooCommerce::class ) ) {
 			return;
 		}
 
+		\add_filter( 'plugin_action_links_' . \plugin_basename( $this->plugin_file ), $this->add_plugin_action_links( ... ) );
 		\add_filter( 'woocommerce_customer_default_location', $this->get_default_location( ... ), 10, 2 );
 		\add_filter( 'woocommerce_get_settings_general', $this->add_default_customer_location_setting( ... ), 10, 1 );
+	}
+
+	/**
+	 * Add plugin action links.
+	 *
+	 * @param array $links The existing links.
+	 * @return array The modified links.
+	 */
+	public function add_plugin_action_links( $links ) {
+		$settings_link = \sprintf(
+			'<a href="%s">%s</a>',
+			\esc_url( \admin_url( 'admin.php?page=wc-settings&tab=general#solvebeam_woocommerce_default_customer_location' ) ),
+			\esc_html__( 'Settings', 'solvebeam-default-customer-location-for-woocommerce' )
+		);
+
+		\array_unshift( $links, $settings_link );
+
+		return $links;
 	}
 
 	/**
