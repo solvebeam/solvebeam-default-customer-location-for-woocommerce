@@ -5,7 +5,7 @@
  * @author    SolveBeam
  * @copyright 2026 SolveBeam
  * @license   GPL-2.0-or-later
- * @package   SolveBeam\WooCommerceDefaultCheckoutCountry
+ * @package   SolveBeam\WooCommerceDefaultCustomerLocation
  */
 
 declare(strict_types=1);

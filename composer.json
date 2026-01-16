@@ -1,6 +1,6 @@
 {
-	"name": "solvebeam/solvebeam-default-checkout-country-for-woocommerce",
-	"description": "Override the default billing country on the WooCommerce checkout without writing code.",
+	"name": "solvebeam/solvebeam-default-customer-location-for-woocommerce",
+	"description": "Override the default customer location used by WooCommerce for taxes, pricing, and checkout.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"autoload": {
@@ -20,7 +20,7 @@
 			"composer/installers": true,
 			"automattic/jetpack-autoloader": true
 		},
-		"wp-slug": "solvebeam-default-checkout-country-for-woocommerce"
+		"wp-slug": "solvebeam-default-customer-location-for-woocommerce"
 	},
 	"require": {
 		"php": "^8.2",
@@ -53,16 +53,16 @@
 			"rsync --recursive --verbose --exclude-from=.distignore --exclude=/vendor/ ./ ./build/stage-1/",
 			"composer install --no-dev --prefer-dist --optimize-autoloader --working-dir=./build/stage-1/",
 			"rsync --recursive --verbose --exclude-from=.distignore ./build/stage-1/ ./build/stage-2/",
-			"vendor/bin/wp i18n make-pot ./build/stage-2/ --slug=solvebeam-default-checkout-country-for-woocommerce",
+			"vendor/bin/wp i18n make-pot ./build/stage-2/ --slug=solvebeam-default-customer-location-for-woocommerce",
 			"vendor/bin/wp i18n make-json ./build/stage-2/languages/*.po --no-purge",
 			"vendor/bin/wp i18n make-mo ./build/stage-2/languages/",
-			"vendor/bin/wp dist-archive ./build/stage-2/ --plugin-dirname=solvebeam-default-checkout-country-for-woocommerce"
+			"vendor/bin/wp dist-archive ./build/stage-2/ --plugin-dirname=solvebeam-default-customer-location-for-woocommerce"
 		],
-		"dist-archive": "wp dist-archive . --plugin-dirname=solvebeam-default-checkout-country-for-woocommerce",
+		"dist-archive": "wp dist-archive . --plugin-dirname=solvebeam-default-customer-location-for-woocommerce",
 		"make-pot": [
 			"@build",
 			"rsync --recursive --delete --verbose ./build/stage-2/languages/ ./languages/",
-			"vendor/bin/wp i18n update-po ./languages/solvebeam-default-checkout-country-for-woocommerce.pot"
+			"vendor/bin/wp i18n update-po ./languages/solvebeam-default-customer-location-for-woocommerce.pot"
 		]
 	}
 }

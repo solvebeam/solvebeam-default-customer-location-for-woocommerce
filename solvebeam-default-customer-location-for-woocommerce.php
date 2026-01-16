@@ -1,30 +1,30 @@
 <?php
 /**
- * SolveBeam Default Checkout Country for WooCommerce
+ * SolveBeam Default Customer Location for WooCommerce
  *
  * @author    SolveBeam
  * @copyright 2026 SolveBeam
  * @license   GPL-2.0-or-later
- * @package   SolveBeam\WooCommerceDefaultCheckoutCountry
+ * @package   SolveBeam\WooCommerceDefaultCustomerLocation
  *
  * @wordpress-plugin
- * Plugin Name:       SolveBeam Default Checkout Country for WooCommerce
+ * Plugin Name:       SolveBeam Default Customer Location for WooCommerce
  * Plugin URI:        https://www.solvebeam.com/
- * Description:       Allows you to set a default billing country for the WooCommerce checkout using a simple setting.
+ * Description:       Override the default customer location used by WooCommerce for taxes, pricing, and checkout.
  * Version:           1.0.0
  * Requires at least: 6.2
  * Requires PHP:      8.2
  * Author:            SolveBeam
  * Author URI:        https://www.solvebeam.com/
- * Text Domain:       solvebeam-default-checkout-country-for-woocommerce
+ * Text Domain:       solvebeam-default-customer-location-for-woocommerce
  * Domain Path:       /languages/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires Plugins:  woocommerce
- * GitHub URI:        https://github.com/solvebeam/solvebeam-default-checkout-country-for-woocommerce
+ * GitHub URI:        https://github.com/solvebeam/solvebeam-default-customer-location-for-woocommerce
  */
 
-namespace SolveBeam\WooCommerceDefaultCheckoutCountry;
+namespace SolveBeam\WooCommerceDefaultCustomerLocation;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -45,8 +45,8 @@ if ( \file_exists( $autoload_path ) ) {
 \add_action(
 	'plugins_loaded',
 	function () {
-		\load_plugin_textdomain( 'solvebeam-default-checkout-country-for-woocommerce', false, \dirname( \plugin_basename( __FILE__ ) ) . '/languages' );
+		\load_plugin_textdomain( 'solvebeam-default-customer-location-for-woocommerce', false, \dirname( \plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 );
 
-Plugin::instance()->setup();
+Plugin::instance();

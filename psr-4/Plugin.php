@@ -5,10 +5,10 @@
  * @author    SolveBeam
  * @copyright 2026 SolveBeam
  * @license   GPL-2.0-or-later
- * @package   SolveBeam\WooCommerceDefaultCheckoutCountry
+ * @package   SolveBeam\WooCommerceDefaultCustomerLocation
  */
 
-namespace SolveBeam\WooCommerceDefaultCheckoutCountry;
+namespace SolveBeam\WooCommerceDefaultCustomerLocation;
 
 /**
  * Plugin class
@@ -37,12 +37,10 @@ final class Plugin {
 	}
 
 	/**
-	 * Setup.
-	 *
-	 * @return void
+	 * Construct.
 	 */
-	public function setup() {
-		add_action( 'plugins_loaded', [ $this, 'init' ] );
+	private function __construct() {
+		\add_action( 'plugins_loaded', [ $this, 'init' ] );
 	}
 
 	public function init() {

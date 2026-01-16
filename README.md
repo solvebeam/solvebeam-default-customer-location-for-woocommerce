@@ -1,4 +1,4 @@
-# SolveBeam Default Checkout Country for WooCommerce
+# SolveBeam Default Customer Location for WooCommerce
 
 A minimal WooCommerce plugin that allows you to set a default billing country for the checkout page via a single setting.
 

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<ruleset name="SolveBeam Default Checkout Country for WooCommerce">
+<ruleset name="SolveBeam Default Customer Location for WooCommerce">
 	<file>.</file>
 
 	<exclude-pattern type="relative">^blocks/*</exclude-pattern>
