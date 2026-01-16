@@ -1,50 +1,53 @@
 === SolveBeam Default Customer Location for WooCommerce ===
 Contributors: solvebeam
-Tags: woocommerce, checkout, country, billing, default country
-Requires at least: 6.0
+Tags: woocommerce, location, country, tax, pricing, shipping, default customer location
+Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 8.2
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Override the default customer location used by WooCommerce for taxes, pricing, and checkout.
+Set the default customer location in WooCommerce using a simple admin setting. This location is used by WooCommerce to calculate taxes, pricing, and shipping before the customer enters their own address.
 
 == Description ==
 
-SolveBeam Default Customer Location for WooCommerce lets you override the default billing country on the WooCommerce checkout page without writing any code.
+SolveBeam Default Customer Location for WooCommerce lets you set a default country that WooCommerce uses for tax, pricing, and shipping calculations for all visitors.
 
-WooCommerce provides a code snippet to change the default country and state on the checkout. This plugin offers the same functionality through a simple settings page in the WordPress admin.
+WooCommerce's "Default customer location" setting determines how taxes, pricing (e.g., including/excluding tax), and shipping zones are applied for first-time visitors. This setting can be based on geolocation, the shop's base address, or be disabled. This plugin adds a simple option to override this setting with a specific country of your choice, without needing geolocation services or code snippets.
 
 Features:
-* Set a default billing country for the checkout
-* Uses the official WooCommerce checkout filter
-* One setting, no clutter
-* No frontend scripts or styles
-* Fully compatible with WooCommerce updates
+* Set a default customer location (country) for all visitors
+* Overrides the "Default customer location" in WooCommerce settings
+* Affects taxes, pricing, and shipping zone calculations
+* Simple settings page under **WooCommerce > Default Customer Location**
+* Lightweight, no-bloat, and no frontend assets
 
 == Installation ==
 
 1. Upload the plugin folder to `/wp-content/plugins/`
-2. Activate the plugin through the Plugins menu
-3. Go to WooCommerce > Default Checkout Country
-4. Select the country you want to use as default
+2. Activate the plugin through the "Plugins" menu in WordPress
+3. Go to **WooCommerce > Default Customer Location**
+4. Select the country you want to use as the default
 5. Save changes
 
 == Frequently Asked Questions ==
 
-= Does this plugin change shipping countries? =
-No. This plugin only affects the default billing country on the checkout page.
+= How does this differ from the "Default customer location" setting in WooCommerce? =
+This plugin provides a simple way to force a specific country as the default location, overriding the standard WooCommerce options (like "Shop base address" or "Geolocate"). It ensures all visitors are treated as if they are from that country until they provide their own address.
 
-= Does this plugin override customer saved addresses? =
-No. Saved customer addresses always take precedence.
+= Does this plugin affect customer saved addresses? =
+No. Once a customer logs in or enters their address at checkout, their own information will be used. This plugin only sets the default for visitors who have not yet provided location data.
 
-= Does this plugin use custom checkout fields? =
-No. It uses the official WooCommerce checkout filter.
+= What is the "default customer location" used for? =
+WooCommerce uses it to determine:
+*   Which tax rates to apply.
+*   Whether to display prices with or without tax.
+*   Which shipping zones and methods are available.
 
 == Screenshots ==
 
-1. Settings page under WooCommerce
+1. Settings page under WooCommerce > Default Customer Location
 
 == Changelog ==
 

@@ -14,7 +14,7 @@ namespace SolveBeam\WooCommerceDefaultCustomerLocation;
  * Plugin class
  */
 final class Plugin {
-	const OPTION_NAME = 'solvebeam_default_checkout_country';
+	const OPTION_NAME = 'solvebeam_default_customer_location';
 
 	/**
 	 * Instance.
@@ -48,35 +48,35 @@ final class Plugin {
 			return;
 		}
 
-		add_filter( 'default_checkout_billing_country', [ $this, 'get_default_country' ] );
+		add_filter( 'woocommerce_customer_default_location', [ $this, 'get_default_location' ] );
 		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
 	}
 
-	public function get_default_country( $country ) {
+	public function get_default_location( $location ) {
 		$option = get_option( self::OPTION_NAME );
 
 		if ( ! empty( $option ) ) {
 			return $option;
 		}
 
-		return $country;
+		return $location;
 	}
 
 	public function add_settings_page() {
 		add_submenu_page(
 			'woocommerce',
-			__( 'Default Checkout Country', 'solvebeam-default-checkout-country' ),
-			__( 'Default Checkout Country', 'solvebeam-default-checkout-country' ),
+			__( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ),
+			__( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ),
 			'manage_woocommerce',
-			'solvebeam-default-checkout-country',
+			'solvebeam-default-customer-location',
 			[ $this, 'render_settings_page' ]
 		);
 	}
 
 	public function register_settings() {
 		register_setting(
-			'solvebeam_default_checkout_country',
+			'solvebeam_default_customer_location',
 			self::OPTION_NAME,
 			[
 				'type'              => 'string',
@@ -91,22 +91,26 @@ final class Plugin {
 		$value     = get_option( self::OPTION_NAME );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Default Checkout Country', 'solvebeam-default-checkout-country' ); ?></h1>
+			<h1><?php esc_html_e( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ); ?></h1>
+
+			<p>
+				<?php esc_html_e( 'This plugin allows you to set the "Default customer location" that WooCommerce uses for tax, pricing, and shipping calculations.', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
+			</p>
 
 			<form method="post" action="options.php">
-				<?php settings_fields( 'solvebeam_default_checkout_country' ); ?>
+				<?php settings_fields( 'solvebeam_default_customer_location' ); ?>
 
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">
-							<label for="solvebeam_default_checkout_country">
-								<?php esc_html_e( 'Default billing country', 'solvebeam-default-checkout-country' ); ?>
+							<label for="solvebeam_default_customer_location">
+								<?php esc_html_e( 'Default customer location', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
 							</label>
 						</th>
 						<td>
-							<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>" id="solvebeam_default_checkout_country">
+							<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>" id="solvebeam_default_customer_location">
 								<option value="">
-									<?php esc_html_e( 'WooCommerce default', 'solvebeam-default-checkout-country' ); ?>
+									<?php esc_html_e( 'WooCommerce default', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
 								</option>
 								<?php foreach ( $countries as $code => $label ) : ?>
 									<option value="<?php echo esc_attr( $code ); ?>" <?php selected( $value, $code ); ?>>
@@ -115,7 +119,7 @@ final class Plugin {
 								<?php endforeach; ?>
 							</select>
 							<p class="description">
-								<?php esc_html_e( 'This country will be preselected on the WooCommerce checkout page.', 'solvebeam-default-checkout-country' ); ?>
+								<?php esc_html_e( 'This determines the location WooCommerce assumes for visitors before they enter their address. It affects taxes, prices, and shipping zones.', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
 							</p>
 						</td>
 					</tr>
