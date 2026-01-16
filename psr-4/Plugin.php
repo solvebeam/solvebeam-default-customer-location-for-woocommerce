@@ -43,91 +43,71 @@ final class Plugin {
 		\add_action( 'plugins_loaded', [ $this, 'init' ] );
 	}
 
+	/**
+	 * Initialize plugin.
+	 *
+	 * @return void
+	 */
 	public function init() {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return;
 		}
 
-		add_filter( 'woocommerce_customer_default_location', [ $this, 'get_default_location' ] );
-		add_action( 'admin_menu', [ $this, 'add_settings_page' ] );
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		\add_filter( 'woocommerce_customer_default_location', [ $this, 'get_default_location' ], 10, 2 );
+		\add_filter( 'woocommerce_get_settings_general', [ $this, 'add_default_customer_location_setting' ], 10, 1 );
 	}
 
+	/**
+	 * Get the default location.
+	 *
+	 * Only overrides the default location if the WooCommerce "Default customer location"
+	 * is set to "Shop country/region" (`base`).
+	 *
+	 * @param string $location The default location.
+	 * @return string The modified default location.
+	 */
 	public function get_default_location( $location ) {
-		$option = get_option( self::OPTION_NAME );
+		$default_customer_address = \get_option( 'woocommerce_default_customer_address' );
 
-		if ( ! empty( $option ) ) {
-			return $option;
+		if ( 'base' !== $default_customer_address ) {
+			return $location;
+		}
+
+		$override_location = \get_option( self::OPTION_NAME );
+
+		if ( ! empty( $override_location ) ) {
+			return $override_location;
 		}
 
 		return $location;
 	}
 
-	public function add_settings_page() {
-		add_submenu_page(
-			'woocommerce',
-			__( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ),
-			__( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ),
-			'manage_woocommerce',
-			'solvebeam-default-customer-location',
-			[ $this, 'render_settings_page' ]
-		);
-	}
+	/**
+	 * Add the default customer location setting to the WooCommerce general settings.
+	 *
+	 * @param array $settings The existing settings.
+	 * @return array The modified settings.
+	 */
+	public function add_default_customer_location_setting( $settings ) {
+		$new_settings = [];
 
-	public function register_settings() {
-		register_setting(
-			'solvebeam_default_customer_location',
-			self::OPTION_NAME,
-			[
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'default'           => '',
-			]
-		);
-	}
+		$new_setting = [
+			'title'   => __( 'Override shop country/region for customer location', 'solvebeam-default-customer-location-for-woocommerce' ),
+			'desc'    => __( "Use this setting when the 'Default customer location' above is set to 'Shop country/region', but you want to set a different default location for customers. For example, if your store is based in the Netherlands, but you primarily sell to customers in Germany, select 'Germany' here. New visitors will then immediately see prices and shipping options applicable to Germany.", 'solvebeam-default-customer-location-for-woocommerce' ),
+			'id'      => self::OPTION_NAME,
+			'type'    => 'single_select_country',
+			'default' => \get_option( 'woocommerce_default_country' ),
+			'desc_tip' => false,
+		];
 
-	public function render_settings_page() {
-		$countries = WC()->countries->get_countries();
-		$value     = get_option( self::OPTION_NAME );
-		?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'Default Customer Location', 'solvebeam-default-customer-location-for-woocommerce' ); ?></h1>
+		foreach ( $settings as $setting ) {
+			$new_settings[] = $setting;
 
-			<p>
-				<?php esc_html_e( 'This plugin allows you to set the "Default customer location" that WooCommerce uses for tax, pricing, and shipping calculations.', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
-			</p>
+			if ( isset( $setting['id'] ) && 'woocommerce_default_customer_address' === $setting['id'] ) {
+				$new_settings[] = $new_setting;
+			}
+		}
 
-			<form method="post" action="options.php">
-				<?php settings_fields( 'solvebeam_default_customer_location' ); ?>
-
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row">
-							<label for="solvebeam_default_customer_location">
-								<?php esc_html_e( 'Default customer location', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
-							</label>
-						</th>
-						<td>
-							<select name="<?php echo esc_attr( self::OPTION_NAME ); ?>" id="solvebeam_default_customer_location">
-								<option value="">
-									<?php esc_html_e( 'WooCommerce default', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
-								</option>
-								<?php foreach ( $countries as $code => $label ) : ?>
-									<option value="<?php echo esc_attr( $code ); ?>" <?php selected( $value, $code ); ?>>
-										<?php echo esc_html( $label ); ?>
-									</option>
-								<?php endforeach; ?>
-							</select>
-							<p class="description">
-								<?php esc_html_e( 'This determines the location WooCommerce assumes for visitors before they enter their address. It affects taxes, prices, and shipping zones.', 'solvebeam-default-customer-location-for-woocommerce' ); ?>
-							</p>
-						</td>
-					</tr>
-				</table>
-
-				<?php submit_button(); ?>
-			</form>
-		</div>
-		<?php
+		return $new_settings;
 	}
 }
