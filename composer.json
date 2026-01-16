@@ -54,7 +54,6 @@
 			"composer install --no-dev --prefer-dist --optimize-autoloader --working-dir=./build/stage-1/",
 			"rsync --recursive --verbose --exclude-from=.distignore ./build/stage-1/ ./build/stage-2/",
 			"vendor/bin/wp i18n make-pot ./build/stage-2/ --slug=solvebeam-default-customer-location-for-woocommerce",
-			"vendor/bin/wp i18n make-json ./build/stage-2/languages/*.po --no-purge",
 			"vendor/bin/wp i18n make-mo ./build/stage-2/languages/",
 			"vendor/bin/wp dist-archive ./build/stage-2/ --plugin-dirname=solvebeam-default-customer-location-for-woocommerce"
 		],

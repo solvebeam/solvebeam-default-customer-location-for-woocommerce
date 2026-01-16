@@ -10,6 +10,8 @@
 
 namespace SolveBeam\WooCommerceDefaultCustomerLocation;
 
+use WooCommerce;
+
 /**
  * Plugin class
  */
@@ -38,7 +40,7 @@ final class Plugin {
 	 * Construct.
 	 */
 	private function __construct() {
-		\add_action( 'plugins_loaded', [ $this, 'init' ] );
+		\add_action( 'plugins_loaded', $this->init( ... ) );
 	}
 
 	/**
@@ -47,12 +49,12 @@ final class Plugin {
 	 * @return void
 	 */
 	public function init() {
-		if ( ! class_exists( 'WooCommerce' ) ) {
+		if ( ! \class_exists( WooCommerce::class ) ) {
 			return;
 		}
 
-		\add_filter( 'woocommerce_customer_default_location', [ $this, 'get_default_location' ], 10, 2 );
-		\add_filter( 'woocommerce_get_settings_general', [ $this, 'add_default_customer_location_setting' ], 10, 1 );
+		\add_filter( 'woocommerce_customer_default_location', $this->get_default_location( ... ), 10, 2 );
+		\add_filter( 'woocommerce_get_settings_general', $this->add_default_customer_location_setting( ... ), 10, 1 );
 	}
 
 	/**
@@ -64,20 +66,25 @@ final class Plugin {
 	 * @param string $location The default location.
 	 * @return string The modified default location.
 	 */
-	public function get_default_location( $location ) {
+	private function get_default_location( $location ) {
 		$default_customer_address = \get_option( 'woocommerce_default_customer_address' );
 
-		if ( 'base' !== $default_customer_address ) {
+		/**
+		 * No location by default.
+		 *
+		 * @link https://github.com/woocommerce/woocommerce/blob/1791b9aaca1b055d5197ab325aa8f9efcc8f1615/plugins/woocommerce/includes/admin/settings/class-wc-settings-general.php#L232-L245
+		 */
+		if ( '' === $default_customer_address ) {
 			return $location;
 		}
 
 		$override_location = \get_option( 'solvebeam_woocommerce_default_customer_location' );
 
-		if ( ! empty( $override_location ) ) {
-			return $override_location;
+		if ( '' === $override_location ) {
+			return $location;
 		}
 
-		return $location;
+		return $override_location;
 	}
 
 	/**
@@ -86,7 +93,7 @@ final class Plugin {
 	 * @param array $settings The existing settings.
 	 * @return array The modified settings.
 	 */
-	public function add_default_customer_location_setting( $settings ) {
+	private function add_default_customer_location_setting( $settings ) {
 		$new_settings = [];
 
 		$new_setting = [
