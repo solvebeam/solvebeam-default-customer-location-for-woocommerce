@@ -20,17 +20,21 @@
 			"composer/installers": true,
 			"automattic/jetpack-autoloader": true
 		},
-		"wp-slug": "solvebeam-default-customer-location-for-woocommerce"
+		"platform": {
+			"php": "8.3"
+		},
+		"platform-check": false,
+		"sort-packages": true
 	},
 	"require": {
-		"php": "^8.2",
-		"composer/installers": "^2.3",
-		"automattic/jetpack-autoloader": "^5.0"
+		"php": "^8.3",
+		"automattic/jetpack-autoloader": "^5.0",
+		"composer/installers": "^2.3"
 	},
 	"require-dev": {
-		"pronamic/wp-coding-standards": "^2.2",
-		"rector/rector": "^2.2",
-		"roots/wordpress-no-content": "^6.7",
+		"pronamic/wp-coding-standards": "^2.5",
+		"rector/rector": "^2.3",
+		"roots/wordpress-no-content": "^6.9",
 		"wp-cli/dist-archive-command": "*",
 		"wp-cli/wp-cli-bundle": "*"
 	},
@@ -42,25 +46,24 @@
 				"vendor:wp-pay",
 				"woocommerce/action-scheduler"
 			]
-		}
+		},
+		"wp-slug": "solvebeam-default-customer-location-for-woocommerce"
 	},
 	"scripts": {
 		"build": [
-			"rm -rf ./build",
-			"mkdir ./build",
-			"mkdir ./build/stage-1",
-			"mkdir ./build/stage-2",
+			"rm -rf ./build/stage-1",
+			"rm -rf ./build/solvebeam-default-customer-location-for-woocommerce/*",
 			"rsync --recursive --verbose --exclude-from=.distignore --exclude=/vendor/ ./ ./build/stage-1/",
 			"composer install --no-dev --prefer-dist --optimize-autoloader --working-dir=./build/stage-1/",
-			"rsync --recursive --verbose --exclude-from=.distignore ./build/stage-1/ ./build/stage-2/",
-			"vendor/bin/wp i18n make-pot ./build/stage-2/ --slug=solvebeam-default-customer-location-for-woocommerce",
-			"vendor/bin/wp i18n make-mo ./build/stage-2/languages/",
-			"vendor/bin/wp dist-archive ./build/stage-2/ --plugin-dirname=solvebeam-default-customer-location-for-woocommerce"
+			"rsync --recursive --verbose --exclude-from=.distignore ./build/stage-1/ ./build/solvebeam-default-customer-location-for-woocommerce/",
+			"vendor/bin/wp i18n make-pot ./build/solvebeam-default-customer-location-for-woocommerce/ --slug=solvebeam-default-customer-location-for-woocommerce",
+			"vendor/bin/wp i18n make-mo ./build/solvebeam-default-customer-location-for-woocommerce/languages/",
+			"vendor/bin/wp dist-archive ./build/solvebeam-default-customer-location-for-woocommerce/ --plugin-dirname=solvebeam-default-customer-location-for-woocommerce --force"
 		],
 		"dist-archive": "wp dist-archive . --plugin-dirname=solvebeam-default-customer-location-for-woocommerce",
 		"make-pot": [
 			"@build",
-			"rsync --recursive --delete --verbose ./build/stage-2/languages/ ./languages/",
+			"rsync --recursive --delete --verbose ./build/solvebeam-default-customer-location-for-woocommerce/languages/ ./languages/",
 			"vendor/bin/wp i18n update-po ./languages/solvebeam-default-customer-location-for-woocommerce.pot"
 		]
 	}

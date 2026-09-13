@@ -9,18 +9,18 @@
 		"woocommerce",
 		"wordpress"
 	],
-	"homepage": "https://github.com/pronamic/solvebeam-default-customer-location-for-woocommerce#readme",
+	"homepage": "https://github.com/solvebeam/solvebeam-default-customer-location-for-woocommerce#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/pronamic/solvebeam-default-customer-location-for-woocommerce.git"
+		"url": "git+https://github.com/solvebeam/solvebeam-default-customer-location-for-woocommerce.git"
 	},
 	"bugs": {
-		"url": "https://github.com/pronamic/solvebeam-default-customer-location-for-woocommerce/issues"
+		"url": "https://github.com/solvebeam/solvebeam-default-customer-location-for-woocommerce/issues"
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@wordpress/env": "^10.37.0",
-		"@wordpress/scripts": "^31.2.0"
+		"@wordpress/env": "^11.2.0",
+		"@wordpress/scripts": "^31.7.0"
 	},
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {

@@ -8,6 +8,8 @@
  * @package   SolveBeam\WooCommerceDefaultCustomerLocation
  */
 
+declare(strict_types=1);
+
 namespace SolveBeam\WooCommerceDefaultCustomerLocation;
 
 use WooCommerce;
