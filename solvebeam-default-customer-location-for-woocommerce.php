@@ -13,7 +13,7 @@
  * Description:       Override the default customer location used by WooCommerce for taxes, pricing, and checkout.
  * Version:           1.0.0
  * Requires at least: 6.2
- * Requires PHP:      8.2
+ * Requires PHP:      8.3
  * Author:            SolveBeam
  * Author URI:        https://www.solvebeam.com/
  * Text Domain:       solvebeam-default-customer-location-for-woocommerce
@@ -23,6 +23,8 @@
  * Requires Plugins:  woocommerce
  * GitHub URI:        https://github.com/solvebeam/solvebeam-default-customer-location-for-woocommerce
  */
+
+declare(strict_types=1);
 
 namespace SolveBeam\WooCommerceDefaultCustomerLocation;
 
